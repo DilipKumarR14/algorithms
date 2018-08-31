@@ -1,4 +1,7 @@
 <?php
 include "utility.php";
 $ref=new utility();
-$a =$ref->rangeofprime(1000);
+echo "enter the range : ";
+$num=$ref->getint();
+$a =$ref->rangeofprime($num);
+?>

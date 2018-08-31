@@ -1,5 +1,5 @@
 <?php
 include "utility.php";
 $ref=new utility();
-$ref->dayofweek();
+$ref->payment();
 ?>

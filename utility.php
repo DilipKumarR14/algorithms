@@ -4,10 +4,16 @@ class Utility
     //take integer input
     public function getstring()
     {
-        fscanf(STDIN, '%s', $str);
-        if (filter_var($str, FILTER_SANITIZE_STRING)) {
-            return $str;
+        fscanf(STDIN, '%s', $string);
+        if(filter_var($string,FILTER_VALIDATE_INT))
+            {
+                echo "enter the string : ";
+                $this->getstring();
+            }
+        else if (filter_var($string, FILTER_SANITIZE_STRING)) {
+            return $string;
         } else {
+            echo "enter the string : ";
             return $this->getstring();
         }
     }
@@ -19,7 +25,7 @@ class Utility
         if (filter_var($str, FILTER_VALIDATE_INT)) {
             return $str;
         } else {
-            echo "enter the integer >0 ";
+            echo "enter the integer  ";
             return $this->getint();
         }
     }
@@ -31,18 +37,19 @@ class Utility
         // $str="army";
         // $str1="mare";
         $ref = new Utility();
-        $q = $ref->tosplit($str);
-        $w = $ref->tosplit($str1);
-        $x = $ref->com($q, $w);
-        if ($x == true) {
+        $str1 = $ref->tosplit($str);
+        $str2 = $ref->tosplit($str1);
+        $result = $ref->comparing($str1, $str2);
+        if ($result == true) {
             echo "anagram \n";
         } else {
-            echo "not \n";
+            echo "not a anagram \n";
         }
     }
-    #to spilt
+    #spliting the each character in string $a
     public function tosplit($a)
     {
+
         $string = $a;
         $resultArr = [];
         $strLength = strlen($string);
@@ -50,7 +57,8 @@ class Utility
             $resultArr[$i] = $string[$i];
         }
         //print_r($resultArr);
-        // sort
+
+        // sort each chr in array
         for ($j = 0; $j < sizeof($resultArr); $j++) {
             for ($i = 0; $i < sizeof($resultArr) - 1; $i++) {
 
@@ -65,7 +73,7 @@ class Utility
         return $resultArr;
     }
     #comparing
-    public function com($q, $w)
+    public function comparing($q, $w)
     {
         if (sizeof($q) != sizeof($w)) {
             return false;
@@ -78,8 +86,8 @@ class Utility
             return true;
         }
     }
-    #prime number
 
+    #prime number in range
     public function rangeofprime($n)
     {
         for ($i = 1; $i < $n; $i++) {
@@ -100,6 +108,7 @@ class Utility
 
     public function primeanagram()
     {
+
         function is_prime($n)
         {
             $i;
@@ -110,7 +119,7 @@ class Utility
             }
             return true;
         }
-
+        // finding the palindrome of each number
         function Palindrome($number)
         {
             $temp = $number;
@@ -126,12 +135,6 @@ class Utility
                 return false;
             }
         }
-        for ($i = 2; $i < 1000; $i++) {
-            if (is_prime($i) && Palindrome($i)) {
-                echo $i . "\n";
-            }
-        }
-
         for ($i = 2; $i < 1000; $i++) {
             if (is_prime($i) && Palindrome($i)) {
                 echo $i . "\n";
@@ -164,13 +167,34 @@ class Utility
         return false;
     }
     #binary integer
-    public function binary($arr, $value)
+    public function binary()
     {
+        echo "enter the size of array : ";
+        $size = $this->getint();
+        echo "enter the elements : ";
+        $resultArr = array();
 
-        if ($this->binarySearch($arr, $value) == true) {
-            echo $value . " Exists \n";
+        for ($i = 0; $i < $size; $i++) {
+            $resultArr[$i] = $this->getint();
+        }
+        #sorting the array element
+        for ($j = 0; $j < sizeof($resultArr); $j++) {
+            for ($i = 0; $i < sizeof($resultArr) - 1; $i++) {
+
+                if ($resultArr[$i] > $resultArr[$i + 1]) {
+                    $temp = $resultArr[$i + 1];
+                    $resultArr[$i + 1] = $resultArr[$i];
+                    $resultArr[$i] = $temp;
+                }
+            }
+            print_r($resultArr);
+        }
+        echo "enter the value to search : ";
+        $value = $this->getint();
+        if ($this->binarySearch($resultArr, $value) == true) {
+            echo $value . " value is present \n";
         } else {
-            echo $value . " Doesnt Exist\n";
+            echo $value . " value is not present\n";
         }
     }
 
@@ -178,12 +202,8 @@ class Utility
 
     public function binarystring()
     {
-        function binarySearch(array $arr, $x)
+        function binarySearch($arr, $x)
         {
-            if (count($arr) === 0) {
-                return false;
-            }
-
             $low = 0;
             $high = count($arr) - 1;
 
@@ -203,18 +223,39 @@ class Utility
             return false;
         }
         #binary integer
-        function binary($arr, $value)
+        function binary($resultArr, $value)
         {
 
-            if (binarySearch($arr, $value) == true) {
-                echo $value . " Exists \n";
+            if (binarySearch($resultArr, $value) == true) {
+                echo $value . " string present \n";
             } else {
-                echo $value . " Doesnt Exist\n";
+                echo $value . " string not present \n";
             }
         }
-        $arr = array("a", "b", "c", "d");
-        $value = "a";
-        binary($arr, $value);
+        echo "enter the size of array : ";
+        $size = $this->getint();
+       
+            for ($i = 0; $i < $size; $i++) {
+                echo "enter the elements : ";
+            $resultArr[$i] = $this->getstring();
+        }
+        #sorting the array element
+        for ($j = 0; $j < sizeof($resultArr); $j++) {
+            for ($i = 0; $i < sizeof($resultArr) - 1; $i++) {
+
+                if ($resultArr[$i] > $resultArr[$i + 1]) {
+                    $temp = $resultArr[$i + 1];
+                    $resultArr[$i + 1] = $resultArr[$i];
+                    $resultArr[$i] = $temp;
+                }
+            }
+            echo "\n";
+        }
+        print_r($resultArr);
+        echo "enter the value to search : ";
+        $value = $this->getstring();
+
+        binary($resultArr, $value);
     }
 
 #insertion integer
@@ -223,29 +264,37 @@ class Utility
     {
         function insertionintSort(&$arr, $n)
         {
-            for ($i = 1; $i < $n; $i++) {
+            for ($i = 0; $i < $n; $i++) {
                 $key = $arr[$i];
                 $j = $i - 1;
                 while ($j >= 0 && $arr[$j] > $key) {
                     $arr[$j + 1] = $arr[$j];
                     $j = $j - 1;
                 }
-
                 $arr[$j + 1] = $key;
             }
         }
-        function printintArray(&$arr, $n)
-        {
-            for ($i = 0; $i < $n; $i++) {
-                echo $arr[$i] . " ";
-            }
-
-            echo "\n";
+        echo "enter the size of array : ";
+        $size = $this->getint();
+        for ($i = 0; $i < $size; $i++) {
+            echo "enter the elements : ";
+            $resultArr[$i] = $this->getint();
         }
-        $arr = array(12, 11, 13, 5, 6);
-        $n = sizeof($arr);
-        insertionintSort($arr, $n);
-        printintArray($arr, $n);
+        #sorting the array element
+        for ($j = 0; $j < sizeof($resultArr); $j++) {
+            for ($i = 0; $i < sizeof($resultArr) - 1; $i++) {
+
+                if ($resultArr[$i] > $resultArr[$i + 1]) {
+                    $temp = $resultArr[$i + 1];
+                    $resultArr[$i + 1] = $resultArr[$i];
+                    $resultArr[$i] = $temp;
+                }
+            }
+           
+        }
+        print_r($resultArr);
+        $value=count($resultArr);
+        insertionintSort($resultArr, $value);
     }
 
 #insertion sort for string
@@ -264,18 +313,15 @@ class Utility
                 $arr[$j + 1] = $key;
             }
         }
-        function printArray(&$arr, $n)
+        echo "enter the size of array : ";
+        $n=$this->getint();
+        for($i=0;$i<$n;$i++)
         {
-            for ($i = 0; $i < $n; $i++) {
-                echo $arr[$i] . " ";
-            }
-
-            echo "\n";
+            echo "enter the element : ";
+            $arr[$i]=$this->getstring();
         }
-        $arr = array("kjk", "dfd", "fdg", "hj", "sd");
-        $n = sizeof($arr);
+        print_r($arr);
         insertionSort($arr, $n);
-        printArray($arr, $n);
     }
 
 #bubble integer
@@ -295,16 +341,17 @@ class Utility
                 }
             }
         }
-        $arr = array(4, 22, 56, 64, 3, 23, 342, 32);
-        $len = sizeof($arr);
-        bubbleintSort($arr);
-
-        echo "Sorted array : \n";
-
-        for ($i = 0; $i < $len; $i++) {
-            echo $arr[$i] . " ";
+        // $arr = array(4, 22, 56, 64, 3, 23, 342, 32);
+        // $len = sizeof($arr);
+        echo "enter the size of array : ";
+        $n=$this->getint();
+        for($i=0;$i<$n;$i++)
+        {
+            echo "enter the string : ";
+            $arr[$i]=$this->getint();
         }
-
+        print_r($arr);
+        bubbleintSort($arr);
         echo "\n";
     }
 
@@ -324,17 +371,18 @@ class Utility
                     }
                 }
             }
+            print_r($arr);
         }
-        $arr = array("bnm", "nlkj", "jhk", "zx", "qwq");
-        $len = sizeof($arr);
+        // $arr = array("bnm", "nlkj", "jhk", "zx", "qwq");
+        // $len = sizeof($arr);
+        echo "enter the size of array : ";
+        $n=$this->getint();
+        for($i=0;$i<$n;$i++)
+        {
+            echo "enter the string : ";
+            $arr[$i]=$this->getstring();
+        }
         bubbleSort($arr);
-
-        echo "bubble Sorted array : \n";
-
-        for ($i = 0; $i < $len; $i++) {
-            echo $arr[$i] . " ";
-        }
-
         echo "\n";
     }
     #guess the number
@@ -348,7 +396,7 @@ class Utility
                 return $low;
             }
             $mid = ($low + $high) / 2;
-            echo "is it less 1-less/2-high/3-yes : ", (int) $mid . "\n";
+            echo "is it less 1-less/2-high/3-yes : ", round($mid) . "\n";
             $num = $ref->getint();
             if ($num == 1) {
                 return search($mid, $high);
@@ -380,8 +428,8 @@ class Utility
     public function binarysearchword()
     {
         $s = file_get_contents("file.txt");
+        $s=str_replace(",","\n",$s);
         $s = strtolower($s);
-        $sarr = array();
         $arr = explode(" ", $s);
         // print_r($arr);
         //sorting
@@ -436,8 +484,8 @@ class Utility
         $arr = array();
     }
 
-    #bubble sort integer 
-    function bubble8int()
+    #bubble sort integer
+    public function bubble8int()
     {
         function bubbleintSort(&$arr)
         {
@@ -454,9 +502,9 @@ class Utility
         }
         echo ("Enter the size of n : ");
         $n = $this->getint();
-        echo("enter the numbers : ");
+        echo ("enter the numbers : ");
         for ($i = 0; $i < $n; $i++) {
-            $arr[$i] =$this->getint(); 
+            $arr[$i] = $this->getint();
         }
         bubbleintSort($arr);
 
@@ -470,49 +518,49 @@ class Utility
     }
     #merge sort
 
-    function mergesorting()
-{
-    function merge_sort($arr)
+    public function mergesorting()
     {
-        if (count($arr) == 1) {
-            return $arr;
-        }
+        function merge_sort($arr)
+        {
+            if (count($arr) == 1) {
+                return $arr;
+            }
 
-        $mid = count($arr) / 2;
-        $left = array_slice($arr, 0, $mid);
-        $right = array_slice($arr, $mid);
-        $left = merge_sort($left);
-        $right = merge_sort($right);
-        return merge($left, $right);
-    }
-    function merge($left, $right)
-    {
-        $res = array();
-        while (count($left) > 0 && count($right) > 0) {
-            if ($left[0] > $right[0]) {
-                $res[] = $right[0];
-                $right = array_slice($right, 1);
-            } else {
+            $mid = count($arr) / 2;
+            $left = array_slice($arr, 0, $mid);
+            $right = array_slice($arr, $mid);
+            $left = merge_sort($left);
+            $right = merge_sort($right);
+            return merge($left, $right);
+        }
+        function merge($left, $right)
+        {
+            $res = array();
+            while (count($left) > 0 && count($right) > 0) {
+                if ($left[0] > $right[0]) {
+                    $res[] = $right[0];
+                    $right = array_slice($right, 1);
+                } else {
+                    $res[] = $left[0];
+                    $left = array_slice($left, 1);
+                }
+            }
+            while (count($left) > 0) {
                 $res[] = $left[0];
                 $left = array_slice($left, 1);
             }
+            while (count($right) > 0) {
+                $res[] = $right[0];
+                $right = array_slice($right, 1);
+            }
+            return $res;
         }
-        while (count($left) > 0) {
-            $res[] = $left[0];
-            $left = array_slice($left, 1);
-        }
-        while (count($right) > 0) {
-            $res[] = $right[0];
-            $right = array_slice($right, 1);
-        }
-        return $res;
+        $arr = array(23, 343, 12, 546, 324, 13, 1);
+        print_r(merge_sort($arr)) . "\n";
     }
-    $arr = array(23, 343, 12, 546, 324, 13, 1);
-    print_r(merge_sort($arr)) . "\n";
-}
 
 #vending machine
-function getintfloat()
+    public function getintfloat()
     {
         fscanf(STDIN, '%f', $str);
         if (filter_var($str, FILTER_VALIDATE_INT)) {
@@ -521,79 +569,173 @@ function getintfloat()
             return $this->vendingmachine();
         }
     }
-function vendingmachine()
-{
-    $ref=new utility();
-    $arr = array(1, 2, 5, 10, 50, 100, 500, 1000);
-    echo ("enter the change to be given : ");
-    $change =$ref->getintfloat();
-    $t;
-    $f;
-    $h;
-    $fif;
-    $te;
-    $fiv;
-    $tw;
-    $o;
-    
-    while ($change >= 1000) {
-        $t = $change / 1000;
-        $change %= 1000;
-        echo "change for 1000 : " . $t;
-        echo "\n";
-        break;
-    }
-    while ($change >= 500) {
-        $f = $change / 500;
-        $change %= 500;
-        echo "change for 500 : " . $f;
-        echo "\n";
-        break;
-    }
-    while ($change >= 100) {
-        $h = $change / 100;
-        $change %= 100;
-        echo "change for 100 : " . $h;
-        echo "\n";
-        break;
-    }
-    while ($change >= 50) {
-        $fif = $change / 50;
-        $change %= 50;
-        echo "change for 50 : " . $fif;
-        echo "\n";
-        break;
-    }
-    while ($change >= 10) {
-        $te = $change / 10;
-        $change %= 10;
-        echo "change for 10 : " . $te;
-        echo "\n";
-        break;
-    }
-    while ($change >= 5) {
-        $fiv = $change / 5;
-        $change %= 5;
-        echo "change for 5 : " . $fiv;
-        echo "\n";
-        break;
-    }
-    while ($change >= 2) {
-        $tw = $change / 2;
-        $change %= 2;
-        echo "change for 2 : " . $tw;
-        echo "\n";
-        break;
-    }
-    while ($change >= 1) {
-        $o = $change / 1;
-        $change %= 1;
-        echo "change for 1 : " . $o;
-        echo "\n";
-        break;
-    }
-}
+    public function vendingmachine()
+    {
+        $ref = new utility();
+        $arr = array(1, 2, 5, 10, 50, 100, 500, 1000);
+        echo ("enter the change to be given : ");
+        $change = $ref->getintfloat();
+        $t;
+        $f;
+        $h;
+        $fif;
+        $te;
+        $fiv;
+        $tw;
+        $o;
 
+        while ($change >= 1000) {
+            $t = $change / 1000;
+            $change %= 1000;
+            echo "change for 1000 : " . round($t);
+            echo "\n";
+            break;
+        }
+        while ($change >= 500) {
+            $f = $change / 500;
+            $change %= 500;
+            echo "change for 500 : " . round($f);
+            echo "\n";
+            break;
+        }
+        while ($change >= 100) {
+            $h = $change / 100;
+            $change %= 100;
+            echo "change for 100 : " . round($h);
+            echo "\n";
+            break;
+        }
+        while ($change >= 50) {
+            $fif = $change / 50;
+            $change %= 50;
+            echo "change for 50 : " . round($fif);
+            echo "\n";
+            break;
+        }
+        while ($change >= 10) {
+            $te = $change / 10;
+            $change %= 10;
+            echo "change for 10 : " . round($te);
+            echo "\n";
+            break;
+        }
+        while ($change >= 5) {
+            $fiv = $change / 5;
+            $change %= 5;
+            echo "change for 5 : " . round($fiv);
+            echo "\n";
+            break;
+        }
+        while ($change >= 2) {
+            $tw = $change / 2;
+            $change %= 2;
+            echo "change for 2 : " . round($tw);
+            echo "\n";
+            break;
+        }
+        while ($change >= 1) {
+            $o = $change / 1;
+            $change %= 1;
+            echo "change for 1 : " . round($o);
+            echo "\n";
+            break;
+        }
+    }
+
+#temperature conversion
+
+    public function temperature()
+    {
+        $ref = new utility();
+        echo "enter the choice 1-celsius/2-faherheit :\n ";
+        $value = $ref->getint();
+        switch ($value) {
+
+            case 1:echo "enter the temperature in fahrenheit :\n ";
+                $fah = $ref->getint();
+                $result = ($fah * 5 / 9) + 32;
+                echo "temperature in celsius \n" . $result . "\n";
+                break;
+            case 2:echo "enter the temperature in celsius : \n";
+                $cel = $ref->getint();
+                $result = ($cel - 32) - 5 / 9;
+                echo "temperature in fahreheit \n" . $result . "\n";
+                break;
+            default:echo ("enter the correvct value \n");
+                break;
+        }
+    }
+
+// day of week
+
+    public function dayofweek()
+    {
+        $ref = new utility();
+        echo "enter the day of the week ex=0-sunday,1-monday... : ";
+        $day = $ref->getint();
+        echo "enter the month  ex=1-january,2-february... : ";
+        $month = $ref->getint();
+        echo "enter the year in integer ... : ";
+        $year = $ref->getint();
+
+        $yo = round($year - (14 - $month) / 12);
+        $x = round($yo + $yo / 4 - $yo / 100 + $yo / 400);
+        $mo = round($month + 12 * ((14 - $month) / 12) - 2);
+        $do = round(($day + $x + 31 * $mo / 12) % 7);
+
+        echo $do . "\n";
+    }
+    #monthly payment interest compounded monthly
+
+    public function payment()
+    {
+        $ref = new utility();
+        echo "enter the principal : ";
+        $principal = $ref->getint();
+        echo "enter the year : ";
+        $year = $ref->getint();
+        echo "enter the rate : ";
+        $rate = $ref->getint();
+        $n = 12 * $year;
+        $r = $rate / (12 * 100);
+        $payment = ($principal * $r) / (1 - (1 + $r) ^ (-$n));
+
+        echo "payment to be made : " . $payment . "\n";
+    }
+
+    #to binary
+
+    public function tobinary()
+    {
+        $arr;
+        $i = 0;
+        echo "enter the number : ";
+        $num = $this->getint();
+        while ($num > 0) {
+            $arr[$i] = $num % 2;
+            $num = (int) $num / 2;
+            $i++;
+        }
+        for ($j = $i - 1; $j >= 0; $j--) {
+            echo $arr[$j];
+        }
+        echo "\n";
+    }
+    #to binary swap
+
+    public function swapnibble()
+    {
+        $ref = new utility();
+        function nibbles($x)
+        {
+            $result = (($x & 0x0F) << 4 | ($x & 0xF0) >> 4);
+            echo $result . "\n";
+        }
+        echo "enter the binary number : ";
+        $x = $ref->getint();
+        echo nibbles($x);
+        echo "\n";
+    }
 
 #main ends
 }
